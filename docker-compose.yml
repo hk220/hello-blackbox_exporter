@@ -1,0 +1,23 @@
+services:
+  blackbox_exporter:
+    image: prom/blackbox-exporter:master
+    ports:
+      - '9115:9115'
+    volumes:
+      - ./config/blackbox_exporter:/config:ro
+    command: --config.file=/config/blackbox.yml
+  
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./config/prometheus:/config:ro
+    command: --config.file=/config/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./grafana-data:/var/lib/grafana
+    ports:
+      - '3000:3000'
